@@ -1,15 +1,13 @@
-# Gender submission
+# 1° Descision Tree submission
+library(rpart)
 
 train <- read.csv('./train.csv')
 test <- read.csv('./test.csv')
 
-# prop.table(table(train$Sex, train$Survived))
+fit <- rpart(Survived ~ Pclass + Sex + Age + SibSp + Parch + Fare + Embarked, data=train,method="class")
 
-test$Survived <- 0
-test$Survived[test$Sex == 'female'] <- 1
+res <- predict(fit, test, type="class")
 
-summary(test$Sex)
-summary(test$Survived)
+submission <- data.frame(PassengerId = test$PassengerId, Survived = as.integer(res) - 1)
 
-res <- data.frame(PassengerId = test$PassengerId, Survived = test$Survived)
-write.csv(res, 'gender.csv', row.names = FALSE)
+write.csv(submission, 'firstOrderTree.csv', row.names = FALSE)
