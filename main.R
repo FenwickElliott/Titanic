@@ -1,4 +1,4 @@
-# aloneFactor submission
+# otherNA submission
 library(rpart)
 
 train <- read.csv('./train.csv')
@@ -6,8 +6,11 @@ test <- read.csv('./test.csv')
 test$Survived <- NA
 total <- rbind(train, test)
 
-total$Name <- as.character(total$Name)
+total[62,12] = factor("C")
+total[830,12] = factor("C")
+total[1044,10] = 8.05
 
+total$Name <- as.character(total$Name)
 total$Title <- sapply(total$Name, FUN=function(x) { strsplit(x, split='[,.]')[[1]][2]})
 total$Title <- sub(' ', '', total$Title)
 total$Title[total$Title %in% c('Mlle', 'Mme')] <- 'Miss'
@@ -30,4 +33,4 @@ test <- total[892:1309,]
 fit <- rpart(Survived ~ Family + Title + Pclass + Sex + Age + SibSp + Parch + FamilySize + Fare + Embarked, data=train, method="class")
 res <- predict(fit, test, type="class")
 submission <- data.frame(PassengerId = test$PassengerId, Survived = as.integer(res) - 1)
-write.csv(submission, 'aloneFactor.csv', row.names = FALSE)
+write.csv(submission, 'otherNA.csv', row.names = FALSE)
