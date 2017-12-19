@@ -1,6 +1,5 @@
-# randomForest submission
+# randomForestAloneFamilies submission
 library(rpart)
-# library(randomForest)
 library(party)
 
 train <- read.csv('./train.csv')
@@ -23,9 +22,8 @@ total$Title <- factor(total$Title)
 total$FamilySize <- total$SibSp + total$Parch + 1
 total$SurName <- sapply(total$Name, FUN=function(x) { strsplit(x, split='[,.]')[[1]][1]})
 total$Family <- paste(total$SurName, as.character(total$FamilySize), sep='_')
-total$Family[total$FamilySize == 1 ] <- 'alone'
-# total$Family[total$FamilySize == 2 ] <- 'couple'
-# total$Family[total$FamilySize == 3 ] <- 'threesome'
+# total$Family[total$FamilySize == 1 ] <- paste('alone', as.character(total$PassengerId), sep = '')
+total$Family[total$FamilySize <= 1 ] <- 'alone'
 total$Family <- factor(total$Family)
 
 age <- rpart(Age ~ Survived + Title + Pclass + Sex + Fare + Embarked, data=total[!is.na(total$Age),], method='anova')
@@ -40,6 +38,4 @@ randomForestFit <- cforest(as.factor(Survived) ~ Family + Title + Pclass + Sex +
 
 res <- predict(randomForestFit, test, OOB=TRUE, type = 'response')
 submission <- data.frame(PassengerId = test$PassengerId, Survived = as.integer(res) - 1)
-write.csv(submission, 'randomForest.csv', row.names = FALSE)
-
-mean(submission$Survived)
+write.csv(submission, 'randomForestAloneFamilies', row.names = FALSE)
