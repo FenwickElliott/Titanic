@@ -7,6 +7,7 @@ Titanic is offered as an introductory challenge to illustrate the fundamentals o
 
 ## Results
 Currently my best score is: 0.81339
+Which scores in the 4.0th percentile
 
 ## Techniques
 * Machine Learning
