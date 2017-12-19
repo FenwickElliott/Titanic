@@ -33,4 +33,7 @@ test <- total[892:1309,]
 fit <- rpart(Survived ~ Family + Title + Pclass + Sex + Age + SibSp + Parch + FamilySize + Fare + Embarked, data=train, method="class")
 res <- predict(fit, test, type="class")
 submission <- data.frame(PassengerId = test$PassengerId, Survived = as.integer(res) - 1)
-write.csv(submission, 'otherNA.csv', row.names = FALSE)
+# write.csv(submission, 'otherNA.csv', row.names = FALSE)
+
+fit
+varImpPlot(fit)

@@ -6,8 +6,8 @@ A data set is split into a training set and a testing set with a given set of va
 Titanic is offered as an introductory challenge to illustrate the fundamentals of machine learning. Survival data is given for the first 891 passengers and one must predict the other 418.
 
 ## Results
-Currently my best score is: 0.81339
-Which scores in the 4.0th percentile
+* Best Score: 0.81339
+* As percentile: 0.04032
 
 ## Techniques
 * Machine Learning
